@@ -723,8 +723,16 @@ export default function App() {
   const projectsRef = useRef(null);
   const scrollToProjects = useSmoothScroll(projectsRef, 80);
 
+  // Add a simple test to ensure the app is rendering
+  console.log('App component is rendering');
+
   return (
     <div className="font-sans antialiased text-gray-900 bg-gray-50">
+      {/* Add a simple test div to ensure something is visible */}
+      <div style={{ padding: '20px', backgroundColor: 'red', color: 'white', textAlign: 'center' }}>
+        TEST: If you can see this, React is working!
+      </div>
+      
       <Navbar sections={sections} currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <HeroSection scrollToProjects={scrollToProjects} />
       <AboutSection />
