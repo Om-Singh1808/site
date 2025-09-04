@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, useInView, useAnimation } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaPhone, FaMapMarkerAlt, FaPython, FaReact, FaBrain, FaCode, FaRocket, FaUsers, FaLightbulb } from 'react-icons/fa';
+import { FaGithub, FaEnvelope, FaPhone, FaMapMarkerAlt, FaPython, FaReact, FaBrain, FaCode, FaUsers } from 'react-icons/fa';
 
 // Custom hook for smooth scrolling
 const useSmoothScroll = (ref, offset = 0) => {
@@ -18,29 +18,6 @@ const useSmoothScroll = (ref, offset = 0) => {
   return handleClick;
 };
 
-// Animated Counter Component
-const AnimatedCounter = ({ end, duration = 2 }) => {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (isInView) {
-      let startTime;
-      const animate = (currentTime) => {
-        if (!startTime) startTime = currentTime;
-        const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
-        setCount(Math.floor(progress * end));
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        }
-      };
-      requestAnimationFrame(animate);
-    }
-  }, [isInView, end, duration]);
-
-  return <span ref={ref}>{count}+</span>;
-};
 
 // Skill Badge Component
 const SkillBadge = ({ skill, icon: Icon, level = "Expert" }) => (
@@ -213,9 +190,9 @@ const Navbar = ({ sections, currentPage, setCurrentPage }) => {
           whileHover={{ scale: 1.05 }}
           className="text-2xl font-bold text-gray-800"
         >
-          <a href="#" className="hover:text-primary-600 transition-colors duration-300">
+          <span className="hover:text-primary-600 transition-colors duration-300 cursor-pointer">
             Om Singh
-          </a>
+          </span>
         </motion.div>
         
         <div className="hidden md:flex space-x-8">
@@ -723,12 +700,12 @@ const ContactSection = () => {
 // Main App Component
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  const sections = [
+  const sections = useMemo(() => [
     { id: 'home', name: 'Home' },
     { id: 'about', name: 'About' },
     { id: 'projects', name: 'Projects' },
     { id: 'contact', name: 'Contact' }
-  ];
+  ], []);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -741,7 +718,7 @@ export default function App() {
     window.addEventListener('hashchange', handleHashChange);
     handleHashChange();
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+  }, [sections]);
 
   const projectsRef = useRef(null);
   const scrollToProjects = useSmoothScroll(projectsRef, 80);
