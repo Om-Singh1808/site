@@ -2,7 +2,58 @@
 
 ## Quick Deploy Options
 
-### 🚀 Netlify (Easiest - Recommended)
+### ⚡ Vercel (Fast & Easy - Recommended)
+
+#### Method 1: Deploy via Vercel Dashboard (Easiest)
+
+1. **Push to GitHub**
+   ```bash
+   git add .
+   git commit -m "Add Vercel configuration"
+   git push origin main
+   ```
+
+2. **Connect to Vercel**
+   - Go to [vercel.com](https://vercel.com)
+   - Sign up/Login with GitHub
+   - Click "New Project"
+   - Import your GitHub repository
+   - Vercel will auto-detect React settings:
+     - Framework Preset: Create React App
+     - Build Command: `npm run build`
+     - Output Directory: `build`
+   - Click "Deploy"
+
+3. **Automatic Deployments**
+   - Every push to main branch triggers automatic deployment
+   - Preview deployments for pull requests
+   - Custom domains supported
+
+#### Method 2: Deploy via Vercel CLI
+
+1. **Install Vercel CLI**
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Login and Deploy**
+   ```bash
+   vercel login
+   vercel
+   ```
+
+3. **Follow prompts**
+   - Link to existing project: No
+   - Project name: your-portfolio-name
+   - Directory: ./
+   - Override settings: No
+
+4. **Production Deploy**
+   ```bash
+   vercel --prod
+   ```
+
+### 🚀 Netlify (Alternative)
 
 1. **Push to GitHub**
    ```bash
@@ -25,24 +76,6 @@
    - Go to Site settings > Domain management
    - Add your custom domain
    - Update DNS settings as instructed
-
-### ⚡ Vercel (Fast & Easy)
-
-1. **Install Vercel CLI**
-   ```bash
-   npm i -g vercel
-   ```
-
-2. **Deploy**
-   ```bash
-   vercel
-   ```
-
-3. **Follow prompts**
-   - Link to existing project: No
-   - Project name: your-portfolio-name
-   - Directory: ./
-   - Override settings: No
 
 ### 📱 GitHub Pages
 
@@ -86,6 +119,29 @@
    firebase deploy
    ```
 
+## Vercel Configuration
+
+Your project includes a `vercel.json` configuration file that optimizes deployment:
+
+- **Static Build**: Uses `@vercel/static-build` for React apps
+- **Caching**: Optimized caching for static assets
+- **Security Headers**: Added security headers for better protection
+- **SPA Routing**: Proper handling of React Router routes
+
+### Environment Variables in Vercel
+
+1. **Via Dashboard**:
+   - Go to Project Settings > Environment Variables
+   - Add your variables (use `.env.example` as reference)
+   - Redeploy to apply changes
+
+2. **Via CLI**:
+   ```bash
+   vercel env add REACT_APP_EMAIL_SERVICE_ID
+   vercel env add REACT_APP_EMAIL_TEMPLATE_ID
+   vercel env add REACT_APP_EMAIL_PUBLIC_KEY
+   ```
+
 ## Environment Variables (Optional)
 
 Create a `.env` file for any environment-specific settings:
@@ -104,9 +160,17 @@ REACT_APP_EMAIL_PUBLIC_KEY=your_public_key
 3. Enable HTTPS (automatic)
 
 ### For Vercel:
-1. Add domain in Project settings
-2. Update DNS records
-3. SSL certificate (automatic)
+1. **Add Domain**:
+   - Go to Project Settings > Domains
+   - Add your custom domain
+   - Follow DNS configuration instructions
+
+2. **DNS Configuration**:
+   - Add CNAME record pointing to `cname.vercel-dns.com`
+   - Or A record pointing to Vercel's IP addresses
+
+3. **SSL Certificate**: Automatically provisioned by Vercel
+4. **Automatic HTTPS**: Enabled by default
 
 ## Performance Optimization
 
